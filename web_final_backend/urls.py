@@ -20,15 +20,22 @@ from django.conf.urls import url
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 
 from backend import views
+from backend.views import StudentViewSet
+
+student = StudentViewSet.as_view({
+    'get': 'list',
+    'post': 'my_update',
+})
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
-router.register(r'student', views.StudentViewSet)
+# router.register(r'student', views.StudentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-verify', verify_jwt_token),
+    url(r'student', student)
 ]

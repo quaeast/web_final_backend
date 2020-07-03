@@ -1,7 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from django.contrib.auth.models import User, Group
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from backend.models import Student
 from backend.serializers import StudentSerializer, UserSerializer, GroupSerializer
@@ -30,12 +32,13 @@ class StudentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-
-def student(request):
-    """
-    List all code snippets, or create a new snippet.
-    """
-    if request.method == 'GET':
-        students = Student.objects.all()
-        serializer = StudentSerializer(students, many=True)
-        return JsonResponse(serializer.data, safe=False)
+    def my_update(self, request, *args, **kwargs):
+        serializer = StudentSerializer(data=request.data, partial=True)
+        if serializer.is_valid():
+            student = Student(**request.data)
+            os = Student.objects.get(owner=self.request.user)
+            student.owner = self.request.user
+            student.id = os.id
+            student.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
