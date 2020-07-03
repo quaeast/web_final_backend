@@ -22,5 +22,15 @@ def get_users(token):
     return users_info
 
 
+def create_user():
+    url = 'http://127.0.0.1:8000/logon/'
+    users_response = requests.post(url, json={
+        'username': 'wang',
+        'email': '4@bjfu.com',
+        'password': '1234'
+    })
+    return users_response
+
+
 if __name__ == '__main__':
-    print(get_token())
+    print(create_user().content)

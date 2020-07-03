@@ -20,7 +20,7 @@ from django.conf.urls import url
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 
 from backend import views
-from backend.views import StudentViewSet
+from backend.views import StudentViewSet, create_user
 
 student = StudentViewSet.as_view({
     'get': 'list',
@@ -37,5 +37,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-verify', verify_jwt_token),
-    url(r'student', student)
+    url(r'student', student),
+    url(r'^logon', create_user)
 ]

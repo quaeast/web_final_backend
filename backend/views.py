@@ -1,12 +1,11 @@
-from django.http import JsonResponse
-from django.shortcuts import render
-from rest_framework import viewsets, status
 from django.contrib.auth.models import User, Group
-from rest_framework.decorators import action
+from rest_framework import viewsets, status
+from rest_framework.decorators import action, permission_classes, api_view
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from backend.models import Student
-from backend.serializers import StudentSerializer, UserSerializer, GroupSerializer
+from backend.serializers import StudentSerializer, UserSerializer, GroupSerializer, CreateUserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,6 +22,17 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_user(request):
+    serializer = CreateUserSerializer(data=request.data)
+
+    if serializer.is_valid():
+        User.objects.create_user(**serializer.data)
+        return Response('user create succeed', status=status.HTTP_201_CREATED)
+    Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class StudentViewSet(viewsets.ModelViewSet):
