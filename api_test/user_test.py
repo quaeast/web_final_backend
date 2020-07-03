@@ -1,5 +1,6 @@
 import requests
 
+
 def get_token():
     url = 'http://127.0.0.1:8000/api-token-auth/'
     user_info = {"username": "admin", "password": "fang"}
@@ -22,9 +23,10 @@ def get_users(token):
 
 
 def create_user():
+    # url = 'http://39.96.177.143:8000/logon/'
     url = 'http://127.0.0.1:8000/logon/'
     users_response = requests.post(url, json={
-        'username': 'wang',
+        'username': 'lia',
         'email': '4@bjfu.com',
         'password': '1234'
     })
