@@ -4,9 +4,11 @@ from .models import Student
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(many=False, queryset=Student.objects.all())
+
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ['url', 'username', 'email', 'groups', 'student']
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,7 +17,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'name']
 
 
-class StudentSerializer(serializers.HyperlinkedModelSerializer):
+class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['name', 'schoolId']
+        fields = ['id', 'name', 'schoolId']
+

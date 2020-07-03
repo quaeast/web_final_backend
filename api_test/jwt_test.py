@@ -23,4 +23,4 @@ def get_users(token):
 
 
 if __name__ == '__main__':
-    print(verify_token(get_token()))
+    print(get_token())
