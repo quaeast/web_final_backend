@@ -42,13 +42,24 @@ class StudentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    def get_user(self, request, *args, **kwargs):
+        try:
+            os = Student.objects.get(owner=self.request.user)
+            serializer = StudentSerializer(os, partial=True)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def my_update(self, request, *args, **kwargs):
         serializer = StudentSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             student = Student(**request.data)
-            os = Student.objects.get(owner=self.request.user)
-            student.owner = self.request.user
-            student.id = os.id
-            student.save()
+            try:
+                os = Student.objects.get(owner=self.request.user)
+                student.owner = self.request.user
+                student.id = os.id
+                student.save()
+            except Exception:
+                serializer.save(owner=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -23,7 +23,7 @@ from backend import views
 from backend.views import StudentViewSet, create_user
 
 student = StudentViewSet.as_view({
-    'get': 'list',
+    'get': 'get_user',
     'post': 'my_update',
 })
 

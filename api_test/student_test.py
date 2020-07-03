@@ -1,5 +1,6 @@
 import requests
-from api_test.jwt_test import get_token
+
+from api_test.user_test import get_token
 
 
 def get_student(token):
@@ -15,10 +16,10 @@ def post_student(token):
     student_response = requests.post(
         url,
         headers=headers,
-        json={'name': 'fangzidong', 'schoolId': '171002312'})
+        json={'name': 'fangzidong', 'schoolId': '171002312', 'address': ''})
     return student_response
 
 
 if __name__ == '__main__':
-    print(post_student(get_token()).content)
-    # print(get_student(get_token()).content)
+    print(get_student(get_token()).content)
+    # print(post_student(get_token()).content)

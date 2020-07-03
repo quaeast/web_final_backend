@@ -27,4 +27,22 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['id', 'name', 'schoolId']
+        fields = ['id',
+                  'name',
+                  'schoolId',
+                  'gender',
+                  'birthday',
+                  'nation',
+                  'politicsStatus',
+                  'isArmy',
+                  'maritalStatus',
+                  'universityOfGraduation',
+                  'majorOfGraduation',
+                  'schoolOfGraduation',
+                  'UndergraduateYear',
+                  'address',
+                  'zipCode',
+                  'email',
+                  'cellPhone',
+                  'result'
+                  ]
