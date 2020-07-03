@@ -1,0 +1,5 @@
+requests==3.6
+django
+djangorestframework
+djangorestframework-jwt
+django-cors-headers

@@ -1,3 +1,9 @@
+### 安装环境
+
+```shell script
+pip install -r requirements.txt
+```
+
 ### 创建用户
 
 ```shell script
